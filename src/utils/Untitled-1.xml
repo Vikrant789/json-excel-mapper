@@ -1,0 +1,94 @@
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<feed xml:base="https://acaxprt.onlyformen.nl:19248/XPRT_WSRV_TEST/OData/"
+    xmlns="http://www.w3.org/2005/Atom"
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+    <id>
+        https://acaxprt.onlyformen.nl:19248/XPRT_WSRV_TEST/OData/Company('Logistiek')/TexTracerOrders</id>
+    <title type="text">TexTracerOrders</title>
+    <updated>2026-03-24T10:57:20Z</updated>
+    <link rel="self" title="TexTracerOrders" href="TexTracerOrders" />
+    <entry
+        m:etag="W/&quot;'64%3BUcMAAAJ7%2F0kATwAyADEALQAxADAAMQA3ADEAAAACewYwADcAMQA2ADkAMAAAAAAA11%3B506170780840%3B'&quot;">
+        <id>
+            https://acaxprt.onlyformen.nl:19248/XPRT_WSRV_TEST/OData/Company('Logistiek')/TexTracerOrders(PurchaseOrderNumber='IO21-10171',StyleNumber='071690')</id>
+        <category term="NAV.TexTracerOrders"
+            scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="TexTracerOrders"
+            href="Company('Logistiek')/TexTracerOrders(PurchaseOrderNumber='IO21-10171',StyleNumber='071690')" />
+        <title />
+        <updated>2026-03-24T10:57:20Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:PurchaseOrderNumber>IO21-10171</d:PurchaseOrderNumber>
+                <d:StyleNumber>071690</d:StyleNumber>
+                <d:BrandName>J.C. RAGS</d:BrandName>
+                <d:ProductGroup>127</d:ProductGroup>
+                <d:StyleName>Jasper</d:StyleName>
+                <d:Season>V22</d:Season>
+                <d:RepeatOrder m:type="Edm.Boolean">false</d:RepeatOrder>
+                <d:Colourway>841,391,461</d:Colourway>
+                <d:TotalQuantity m:type="Edm.Decimal">649</d:TotalQuantity>
+                <d:CompositionMain></d:CompositionMain>
+                <d:CompositionSecond></d:CompositionSecond>
+                <d:DeliveryDate m:type="Edm.DateTime">2021-12-30T00:00:00</d:DeliveryDate>
+                <d:DeliveryTerms></d:DeliveryTerms>
+                <d:ProductionCountry>CHINA</d:ProductionCountry>
+                <d:SupplierName>Welfull Group Co., Ltd</d:SupplierName>
+                <d:CompanyRegistration>61139408</d:CompanyRegistration>
+                <d:VendorRegistration>91330000722770509L</d:VendorRegistration>
+                <d:Id m:type="Edm.Guid">fad88f9b-ad85-47c7-adab-25d00285f354</d:Id>
+                <d:CreatedAt m:type="Edm.DateTime">2025-10-14T11:42:51.857Z</d:CreatedAt>
+                <d:ModifiedAt m:type="Edm.DateTime">2025-10-14T11:42:51.877Z</d:ModifiedAt>
+                <d:ETag>
+                    64;UcMAAAJ7/0kATwAyADEALQAxADAAMQA3ADEAAAACewYwADcAMQA2ADkAMAAAAAAA11;506170780840;</d:ETag>
+            </m:properties>
+        </content>
+    </entry>
+    <entry
+        m:etag="W/&quot;'64%3BUcMAAAJ7%2F0kATwAyADEALQAxADAAMQA3ADEAAAACewYwADcAMQA2ADkANQAAAAAA11%3B506170780340%3B'&quot;">
+        <id>
+            https://acaxprt.onlyformen.nl:19248/XPRT_WSRV_TEST/OData/Company('Logistiek')/TexTracerOrders(PurchaseOrderNumber='IO21-10171',StyleNumber='071695')</id>
+        <category term="NAV.TexTracerOrders"
+            scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="TexTracerOrders"
+            href="Company('Logistiek')/TexTracerOrders(PurchaseOrderNumber='IO21-10171',StyleNumber='071695')" />
+        <title />
+        <updated>2026-03-24T10:57:20Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:PurchaseOrderNumber>IO21-10171</d:PurchaseOrderNumber>
+                <d:StyleNumber>071695</d:StyleNumber>
+                <d:BrandName>J.C. RAGS</d:BrandName>
+                <d:ProductGroup>140</d:ProductGroup>
+                <d:StyleName>Jordi</d:StyleName>
+                <d:Season>V22</d:Season>
+                <d:RepeatOrder m:type="Edm.Boolean">false</d:RepeatOrder>
+                <d:Colourway>861,391</d:Colourway>
+                <d:TotalQuantity m:type="Edm.Decimal">512</d:TotalQuantity>
+                <d:CompositionMain></d:CompositionMain>
+                <d:CompositionSecond></d:CompositionSecond>
+                <d:DeliveryDate m:type="Edm.DateTime">2021-12-30T00:00:00</d:DeliveryDate>
+                <d:DeliveryTerms></d:DeliveryTerms>
+                <d:ProductionCountry>CHINA</d:ProductionCountry>
+                <d:SupplierName>Welfull Group Co., Ltd</d:SupplierName>
+                <d:CompanyRegistration>61139408</d:CompanyRegistration>
+                <d:VendorRegistration>91330000722770509L</d:VendorRegistration>
+                <d:Id m:type="Edm.Guid">34c5ca06-fb26-426b-af42-72736462d4a1</d:Id>
+                <d:CreatedAt m:type="Edm.DateTime">2025-10-14T11:42:51.81Z</d:CreatedAt>
+                <d:ModifiedAt m:type="Edm.DateTime">2025-10-14T11:42:51.843Z</d:ModifiedAt>
+                <d:ETag>
+                    64;UcMAAAJ7/0kATwAyADEALQAxADAAMQA3ADEAAAACewYwADcAMQA2ADkANQAAAAAA11;506170780340;</d:ETag>
+            </m:properties>
+        </content>
+    </entry>
+
+</feed>

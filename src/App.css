@@ -1,0 +1,12 @@
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
