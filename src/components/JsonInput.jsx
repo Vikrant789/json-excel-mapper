@@ -7,12 +7,7 @@ export default function JsonInput({
   const [fileName, setFileName] =
     useState("");
 
-  const handleFileUpload = (
-    event
-  ) => {
-    const file =
-      event.target.files[0];
-
+  const processFile = (file) => {
     if (!file) return;
 
     setFileName(file.name);
@@ -29,10 +24,28 @@ export default function JsonInput({
     reader.readAsText(file);
   };
 
+  const handleFileUpload = (
+    event
+  ) => {
+    const file =
+      event.target.files[0];
+
+    processFile(file);
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+
+    const file =
+      event.dataTransfer.files[0];
+
+    processFile(file);
+  };
+
   return (
     <div>
       
-      {/* TOP ACTIONS */}
+      {/* TOP */}
       <div className="flex items-center justify-between mb-4">
         
         <h2 className="text-xl font-semibold text-gray-800">
@@ -54,30 +67,32 @@ export default function JsonInput({
         </label>
       </div>
 
-      {/* FILE NAME */}
-      {fileName && (
-        <div className="mb-4 bg-gray-100 border border-gray-200 px-4 py-3 rounded-2xl text-sm text-gray-700 break-all">
-          
-          <span className="font-semibold">
-            Uploaded File:
-          </span>{" "}
-          
-          {fileName}
-        </div>
-      )}
-
-      {/* TEXTAREA */}
-      <textarea
-        rows="20"
-        value={jsonText}
-        onChange={(e) =>
-          setJsonText(
-            e.target.value
-          )
+      {/* DRAG DROP */}
+      <div
+        onDragOver={(e) =>
+          e.preventDefault()
         }
-        placeholder={`Paste JSON or XML response here...`}
-        className="w-full rounded-3xl border border-gray-300 bg-white p-5 font-mono text-base text-gray-700 outline-none focus:ring-2 focus:ring-gray-300 resize-none"
-      />
+        onDrop={handleDrop}
+        className="border-2 border-dashed border-gray-300 rounded-3xl bg-white hover:bg-gray-50 transition-all p-5"
+      >
+        <textarea
+          rows="18"
+          value={jsonText}
+          onChange={(e) =>
+            setJsonText(
+              e.target.value
+            )
+          }
+          placeholder={`Paste or Drag & Drop JSON/XML response here...`}
+          className="w-full font-mono text-base text-gray-700 outline-none resize-none bg-transparent"
+        />
+
+        {fileName && (
+          <div className="mt-4 inline-block bg-gray-100 px-4 py-2 rounded-xl text-sm text-gray-700 font-medium break-all">
+            {fileName}
+          </div>
+        )}
+      </div>
 
       {/* FOOTER */}
       <div className="flex justify-between items-center mt-3">

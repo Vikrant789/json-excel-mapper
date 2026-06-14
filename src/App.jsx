@@ -5,6 +5,8 @@ import JsonInput from "./components/JsonInput";
 import { parseXmlToJson } from "./utils/xmlParser";
 
 import { validateMappings } from "./utils/validator";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 export default function App() {
   const [jsonText, setJsonText] =
@@ -18,6 +20,21 @@ export default function App() {
 
   const [summary, setSummary] =
     useState(null);
+
+    const [sortField, setSortField] =
+  useState("");
+
+const [sortDirection, setSortDirection] =
+  useState("asc");
+
+const [filters, setFilters] =
+  useState({
+    appField: "",
+    clientField: "",
+    actualPath: "",
+    value: "",
+    status: "",
+  });
 
 const handleValidate = () => {
   try {
@@ -85,6 +102,142 @@ const handleValidate = () => {
     );
   }
 };
+
+const exportToExcel = () => {
+  if (!results.length) {
+    alert("No validation results found");
+
+    return;
+  }
+
+  const exportData = results.map(
+    (item) => ({
+      "App Field":
+        item.appField,
+
+      "Client Field":
+        item.clientField,
+
+      "JSON/XML Path":
+        item.actualPath,
+
+      Value:
+        typeof item.value ===
+        "object"
+          ? JSON.stringify(
+              item.value
+            )
+          : item.value,
+
+      Status:
+        item.status,
+    })
+  );
+
+  const worksheet =
+    XLSX.utils.json_to_sheet(
+      exportData
+    );
+
+  const workbook =
+    XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    worksheet,
+    "Validation Result"
+  );
+
+  const excelBuffer =
+    XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+  const blob = new Blob(
+    [excelBuffer],
+    {
+      type:
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+    }
+  );
+
+  saveAs(
+    blob,
+    `Validation_Result_${Date.now()}.xlsx`
+  );
+};
+
+const handleSort = (field) => {
+  if (sortField === field) {
+    setSortDirection(
+      sortDirection === "asc"
+        ? "desc"
+        : "asc"
+    );
+  } else {
+    setSortField(field);
+    setSortDirection("asc");
+  }
+};
+
+const filteredResults =
+  results
+    .filter((item) => {
+      return (
+        item.appField
+          ?.toLowerCase()
+          .includes(
+            filters.appField.toLowerCase()
+          ) &&
+        item.clientField
+          ?.toLowerCase()
+          .includes(
+            filters.clientField.toLowerCase()
+          ) &&
+        item.actualPath
+          ?.toLowerCase()
+          .includes(
+            filters.actualPath.toLowerCase()
+          ) &&
+        String(item.value)
+          ?.toLowerCase()
+          .includes(
+            filters.value.toLowerCase()
+          ) &&
+        item.status
+          ?.toLowerCase()
+          .includes(
+            filters.status.toLowerCase()
+          )
+      );
+    })
+    .sort((a, b) => {
+      if (!sortField)
+        return 0;
+
+      const aValue =
+        String(
+          a[sortField]
+        ).toLowerCase();
+
+      const bValue =
+        String(
+          b[sortField]
+        ).toLowerCase();
+
+      if (
+        sortDirection === "asc"
+      ) {
+        return aValue.localeCompare(
+          bValue
+        );
+      }
+
+      return bValue.localeCompare(
+        aValue
+      );
+    });
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-7xl mx-auto">
@@ -221,11 +374,17 @@ const handleValidate = () => {
           {/* TABLE */}
           {results.length > 0 && (
             <div className="mt-10 bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm">
-              
-              <div className="px-6 py-5 border-b border-gray-200 bg-gray-50">
+              <div className="px-6 py-5 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-gray-800">
                   Validation Result
                 </h2>
+
+                <button
+                  onClick={exportToExcel}
+                  className="bg-gray-900 hover:bg-black text-white px-5 py-3 rounded-2xl text-sm font-semibold transition-all"
+                >
+                  ⬇ Download Excel
+                </button>
               </div>
 
 <div className="w-full">
@@ -233,33 +392,174 @@ const handleValidate = () => {
   <table className="w-full table-fixed">
     
 <thead className="bg-gray-50 border-b border-gray-200">
+  
+  {/* HEADER */}
   <tr>
+    {[
+      {
+        label: "App Field",
+        field: "appField",
+      },
+      {
+        label: "Client Field",
+        field: "clientField",
+      },
+      {
+        label: "JSON Path",
+        field: "actualPath",
+      },
+      {
+        label: "Value",
+        field: "value",
+      },
+      {
+        label: "Status",
+        field: "status",
+      },
+    ].map((column) => (
+      <th
+        key={column.field}
+        onClick={() =>
+          handleSort(
+            column.field
+          )
+        }
+        className="px-6 py-4 text-left text-base font-semibold text-gray-700 cursor-pointer select-none whitespace-nowrap"
+      >
+<div className="flex items-center gap-2 group">
+  
+  <span>
+    {column.label}
+  </span>
+
+  {/* SORT ICON */}
+  <span
+    className={`text-sm transition-all duration-200
+    ${
+      sortField ===
+      column.field
+        ? "text-gray-700 opacity-100"
+        : "text-gray-300 opacity-70 group-hover:opacity-100 group-hover:text-gray-500"
+    }`}
+  >
+    {sortField ===
+    column.field ? (
+      sortDirection ===
+      "asc" ? (
+        "▲"
+      ) : (
+        "▼"
+      )
+    ) : (
+      "⇅"
+    )}
+  </span>
+</div>
+      </th>
+    ))}
+  </tr>
+
+  {/* FILTERS */}
+  <tr className="bg-white border-t border-gray-100">
     
-    <th className="w-[15%] px-5 py-5 text-left text-base font-semibold text-gray-700 break-words">
-      App Field
+    <th className="px-4 py-3">
+      <input
+        type="text"
+        placeholder="Filter..."
+        value={filters.appField}
+        onChange={(e) =>
+          setFilters({
+            ...filters,
+            appField:
+              e.target.value,
+          })
+        }
+        className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gray-300"
+      />
     </th>
 
-    <th className="w-[15%] px-5 py-5 text-left text-base font-semibold text-gray-700 break-words">
-      Client Field
+    <th className="px-4 py-3">
+      <input
+        type="text"
+        placeholder="Filter..."
+        value={
+          filters.clientField
+        }
+        onChange={(e) =>
+          setFilters({
+            ...filters,
+            clientField:
+              e.target.value,
+          })
+        }
+        className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gray-300"
+      />
     </th>
 
-    <th className="w-[30%] px-5 py-5 text-left text-base font-semibold text-gray-700 break-words">
-      JSON/XML Path
+    <th className="px-4 py-3">
+      <input
+        type="text"
+        placeholder="Filter..."
+        value={
+          filters.actualPath
+        }
+        onChange={(e) =>
+          setFilters({
+            ...filters,
+            actualPath:
+              e.target.value,
+          })
+        }
+        className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gray-300"
+      />
     </th>
 
-    <th className="w-[25%] px-5 py-5 text-left text-base font-semibold text-gray-700 break-words">
-      Value
+    <th className="px-4 py-3">
+      <input
+        type="text"
+        placeholder="Filter..."
+        value={filters.value}
+        onChange={(e) =>
+          setFilters({
+            ...filters,
+            value:
+              e.target.value,
+          })
+        }
+        className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gray-300"
+      />
     </th>
 
-    <th className="w-[15%] px-5 py-5 text-left text-base font-semibold text-gray-700 break-words">
-      Status
-    </th>
+    <th className="px-4 py-3">
+      <select
+        value={filters.status}
+        onChange={(e) =>
+          setFilters({
+            ...filters,
+            status:
+              e.target.value,
+          })
+        }
+        className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gray-300"
+      >
+        <option value="">
+          All
+        </option>
 
+        <option value="Found">
+          Found
+        </option>
+
+        <option value="Missing">
+          Missing
+        </option>
+      </select>
+    </th>
   </tr>
 </thead>
 
 <tbody>
-  {results.map(
+  {filteredResults.map(
     (item, index) => (
       <tr
         key={index}
